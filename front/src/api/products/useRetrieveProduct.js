@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../config";
 
 export const useRetrieveProduct = (id) => {
+
   return useQuery({
     queryKey: [`product${id}`],
     // product1
@@ -14,7 +15,14 @@ export const useRetrieveProduct = (id) => {
     staleTime: 1000 * 60 * 5,
 
     queryFn: async () => {
-      const response = await fetch(`${BASE_URL}/products/${id}/`);
+      const response = await fetch(`${BASE_URL}/products/${id}/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": "application/json",
+        }
+      });
 
       if (!response.ok) {
         throw new Error("Failed to load products");
