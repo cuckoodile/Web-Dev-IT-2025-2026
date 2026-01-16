@@ -1,0 +1,48 @@
+services:
+  web:
+    build: .
+    # Wild card (0.0.0.0) = All (*)
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - ./db.sqlite3:/app/db.sqlite3  # Persist SQLite database
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  celery_worker:
+    build: .
+    command: celery -A core worker -l INFO --concurrency=4
+    depends_on:
+      - redis
+      - web
+    volumes:
+      - .:/app
+      - ./db.sqlite3:/app/db.sqlite3  # Persist SQLite database
+    environment:
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=django-db
+
+  celery_beat:
+    build: .
+    command: celery -A core beat -l INFO
+    depends_on:
+      - redis
+      - web
+    volumes:
+      - .:/app
+      - ./db.sqlite3:/app/db.sqlite3  # Persist SQLite database
+    environment:
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=django-db
+
+
+      # Web > React-Vite

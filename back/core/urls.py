@@ -25,6 +25,7 @@ from rest_framework_simplejwt.views import (
 )
 
 from products.views import *
+from eyai.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,7 +35,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     
-    # Users
+    # Users    TODO
 
     # Products
     path('api/products/', ProductListCreateAPIView.as_view()),
@@ -43,6 +44,11 @@ urlpatterns = [
     # Category
     path('api/categories/', CategoryListCreateAPIView.as_view()),
     path('api/categories/<int:pk>/', CategoryRetrieveUpdateDestroyAPIView.as_view()),
+
+    # Eyai
+    path('api/eyai/prompts/', PromptListCreateAPIView.as_view()),
+    path('api/eyai/prompts/<int:pk>/', PromptRetrieveUpdateDestroyAPIView.as_view()),
+    path('api/eyai/prompts/<int:pk>/retry/', RetryPromptRetrieveUpdateDestroyAPIView.as_view()),
 ]
 
 if settings.DEBUG:

@@ -26,12 +26,13 @@ SECRET_KEY = 'django-insecure-^x44!wbfv4+0i4el^w7h4@+03f_w!p^l+14t^uchugx0mq5gv4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    # Defaults
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,6 +47,13 @@ INSTALLED_APPS = [
 
     # Apps
     'products',
+    'clients',
+    'eyai',
+
+    # Celery and Redis Apps/Deps
+    'django_celery_beat',
+    'django_celery_results',
+    'django_redis',
 ]
 
 MIDDLEWARE = [
@@ -88,6 +96,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -118,7 +127,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -132,6 +140,27 @@ USE_TZ = True
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+AUTH_USER_MODEL = 'clients.User'
+
+# CELERY
+CELERY_BROKER_URL = 'redis://redis:6379/0' # Use Redis as the message broker
+CELERY_RESULT_BACKEND = 'django-cache' # Store results in Django cache
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE # Adjust to your timezone
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler' # Use Django DB for periodic tasks
+
+# Cache using Redis
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379/3",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

@@ -9,7 +9,7 @@ export default function Card({ data }) {
     <div
       // Dynamic Routing
       onClick={() => nav(`/products/${data?.id}`)}
-      className="bg-white border max-w-56 min-w-50 rounded-2xl flex flex-col justify-center overflow-hidden gap-1"
+      className="bg-white border max-w-56 min-w-50 rounded-2xl flex flex-col justify-center overflow-hidden gap-1 cursor-pointer duration-150 hover:scale-105 hover:shadow-lg"
     >
       {/* Image */}
       <div className="relative bg-red-400 h-40">
@@ -26,7 +26,7 @@ export default function Card({ data }) {
         <p>{data?.name}</p>
         <div className="flex justify-between">
           <p>{data?.price}</p>
-          <p>{data?.category_details.name}</p>
+          <p>{data?.category_details?.name}</p>
         </div>
         <p>{data?.description}</p>
       </div>
