@@ -15,7 +15,13 @@ export default function AllProducts() {
     return <p>Error...</p>;
   }
 
-  console.log("Products: ", data);
+  const products = data?.results || [];
+
+  if (!products || products.length === 0) {
+    return <p>No products available</p>;
+  }
+
+  console.log("Products: ", products);
 
   return (
     <div>
@@ -23,11 +29,9 @@ export default function AllProducts() {
 
       {/* Product Cards */}
       <div className="flex gap-2">
-        {data.length != 0 ? data?.map((item) => (
+        {products.map((item) => (
           <Card key={item.id} data={item} />
         ))
-        :
-        <p>No data</p>
       }
       </div>
     </div>

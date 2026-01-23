@@ -16,5 +16,3 @@ export default function App() {
     </div>
   );
 }
-
-/home/velvet/e-com/Web-Dev-IT-2025-2026/front/dist
