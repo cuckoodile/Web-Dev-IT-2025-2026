@@ -1,0 +1,24 @@
+# Python
+*.pyc
+__pycache__
+*.pyd
+*.pyo
+.Python
+env/
+venv/
+ENV/
+venv.bak/
+env.bak/
+
+# Django
+*.log
+local_settings.py
+
+# IDE-specific files (optional)
+.idea/
+.vscode/
+
+# Testing and coverage
+.coverage
+htmlcov/
+.tox/

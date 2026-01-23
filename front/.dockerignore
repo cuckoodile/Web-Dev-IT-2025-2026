@@ -15,3 +15,7 @@ dist
 build
 .Dockerfile
 .dockerignore
+*.yaml
+*lock*
+pnpm-lock.yaml
+lock.yaml

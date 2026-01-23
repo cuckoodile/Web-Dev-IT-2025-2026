@@ -1,7 +1,7 @@
 services:
   web:
     build: .
-    command: pnpm run dev
+    command: npm run dev
     volumes:
       - .:/app
       - node_modules:/app/node_modules
